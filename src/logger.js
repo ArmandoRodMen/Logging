@@ -11,32 +11,31 @@ const customLevels = {
         fatal: 5,
     },
     colors: {
-        debug: "purple",
+        debug: "blue",
         http: "blue",
         information: "green",
         warning: "yellow",
-        error: "orange",
+        error: "red",
         fatal: "red",
     },
 };
 
 export let logger;
 
-if (config.ENVIRONMENT === "production") {
+if (config.ENVIRONMENT === "production") { //Cuando sea producción
     logger = winston.createLogger({
         levels: customLevels.levels,
-        transports: [
-            new winston.transports.File({
-                level: "information", // Se mostrarán mensajes de nivel "infromation" y superiores
-                filename: "logs-prod-file.log",
+        transports:[
+            new winston.transports.Console({
+                level: "information",
                 format: winston.format.combine(
-                    winston.format.timestamp(),
-                    winston.format.prettyPrint()
+                    winston.format.colorize({colors: customLevels.colors}),
+                    winston.format.simple()
                 ),
             }),
             new winston.transports.File({
-                level: "error", // Se mostrarán mensajes de nivel "error" y superiores
-                filename: "errors.log", 
+                level: "error",
+                filename: "errors.log",
                 format: winston.format.combine(
                     winston.format.timestamp(),
                     winston.format.prettyPrint()
@@ -44,14 +43,14 @@ if (config.ENVIRONMENT === "production") {
             }),
         ],
     });
-} else {
-    logger = winston.createLogger({
+}else{
+    logger = winston.createLogger({//Cuando sea development
         levels: customLevels.levels,
         transports: [
-            new winston.transports.Console({
+            new winston.transports.Console({ //Consola
                 level: "debug", // Se mostrarán mensajes de nivel "debug" y superiores
                 format: winston.format.combine(
-                    winston.format.colorize({ colors: customLevels.colors }), // Aplicar colores a la consola
+                    winston.format.colorize({ all: true }), // Aplicar colores a la consola
                     winston.format.simple() // Formato simple para los mensajes
                 ),
             }),
@@ -59,28 +58,3 @@ if (config.ENVIRONMENT === "production") {
     });
 }
 
-
-
-/*
-export const logger = winston.createLogger({
-    levels: customLevels.levels,
-    transports: [
-        new winston.transports.Console({
-            level: "information",
-            format: winston.format.combine(
-                winston.format.colorize({colors: customLevels.colors}), 
-                winston.format.simple()
-            ),
-        }),
-        new winston.transports.File({
-            level: "warning",
-            filename: "logs-file.log",
-            fromat: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.prettyPrint()
-            ),
-        }),
-    ],
-});
-
-*/
