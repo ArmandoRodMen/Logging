@@ -11,6 +11,7 @@ import {
 } from "../services/sessions.services.js";
 import CustomError from "../errors/error.generator.js";
 import { ErrorMessages } from "../errors/errors.enum.js";
+import { logger } from "../logger.js";
 
 export const create= async (req, res) => {
     const { first_name, last_name, email, password, username } = req.body;
@@ -46,17 +47,17 @@ if (!email || !password) {
 }
 try {
     const user = await findByEmail(email);
-    console.log("user", user);
+    logger.information("user", user);
     if (!user) {
         return done(null, false, {message: "Username is not valid"});
     }
     const isPasswordValid = await compareData(password, user.password);
-    console.log("password", isPasswordValid);
+    logger.information("password", isPasswordValid);
     if (!isPasswordValid) {
         return done(null, false, {message: "Password is not valid"});
     }
     const userId = user.id;
-    console.log("userId", userId);
+    logger.information("userId", userId);
 
     const {first_name, last_name, role} = user; 
     const token = generateToken({first_name, last_name, email, role});
@@ -72,7 +73,7 @@ try {
 
 export const createB = async (req, res) => {
         const {name} = req.body;
-        console.log("Role de usuario: ", req.user.role);
+        logger.information("Role de usuario: ", req.user.role);
         if (req.user.role === "user"){
             return res.status(403).json({message: "Hi! you have an user role"});
         }

@@ -10,6 +10,7 @@ import {
 import CustomError from "../errors/error.generator.js";
 import { ErrorMessages } from "../errors/errors.enum.js";
 import { authMiddleware } from '../middlewares/auth.middleware.js';
+import { logger } from '../logger.js';
 
 export const findUsers = async (req, res) => {
     try {
@@ -39,7 +40,7 @@ export const findUser = async (req, res) => {
                     500,
                     ErrorMessages.USER_NOT_FOUND
                 );
-                console.log("Entr´+o");
+                logger.information("Entro");
             }
         });
     });

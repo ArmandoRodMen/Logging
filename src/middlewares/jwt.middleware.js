@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 const SECRET_KEY_JWT = "secretJWT";
+import { logger } from "../logger.js";
 
 /*
 export const jwtValidation = (req, res, next)=>{
@@ -25,7 +26,7 @@ export const jwtValidation = (req, res, next)=>{
         req.user = userToken;
         next();
     }catch(error){
-        console.error("JWT Validation Error:", error);
+        logger.error("JWT Validation Error:", error);
         res.status(401).json({ error: "Unauthorized: Invalid token" });
 
     }

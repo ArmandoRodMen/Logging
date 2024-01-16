@@ -1,5 +1,6 @@
 
-import {productsModel} from "./models/products.model.js"
+import {productsModel} from "./models/products.model.js";
+import { logger } from "../../../logger.js";
 
 class ProductsDao {
 
@@ -24,7 +25,7 @@ class ProductsDao {
             prevLink: response.hasPrevPage ? `http://localhost:8080/api/products?page=${response.prevPage}` : null,
             nextLink: response.hasNextPage ? `http://localhost:8080/api/products?page=${response.nextPage}` : null,
         };
-        console.log(info);
+        logger.information(info);
         const result = response.docs.map(doc => ({ product: doc.toObject() }));
         return result;
         } catch (error) {
@@ -32,7 +33,7 @@ class ProductsDao {
             status: "error",
             message: "Ha ocurrido un error en la búsqueda de productos.",
         };
-            console.error(error);
+            logger.error(error);
             return { result: [] };
         }
     }

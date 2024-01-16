@@ -7,6 +7,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { hashData, compareData } from "./utils.js";
 import { ExtractJwt, Strategy as JWTStrategy} from "passport-jwt";
 import config from "./config.js";
+import { logger } from "./logger.js";
 
 //local
 passport.use(
@@ -28,7 +29,7 @@ passport.use(
                 role: role,
                 cart: createdCart,
         });
-        console.log(createdUser);
+        logger.information(createdUser);
         done(null, createdUser);
         }catch(error){
             done(error);
@@ -91,7 +92,7 @@ passport.use(
             password: " ",
             isGithub: true,
         }
-        console.log("infoUser: ",infoUser);
+        logger.infromation("infoUser: ",infoUser);
         const createdUser = await usersDao.createOne(infoUser);
         done(null, createdUser);
     }catch(error){
@@ -127,7 +128,7 @@ passport.use(
                 password: " ",
                 isGoogle: true,
             }
-            console.log(infoUser);
+            logger.infromation(infoUser);
             const createdUser = await usersDao.createOne(infoUser);
             done(null, createdUser);
         }catch(error){
@@ -147,7 +148,7 @@ passport.use("jwt",
         jwtFromRequest: ExtractJwt.fromExtractors([current]),
         secretOrKey: config.SECRET_KEY_JWT,
 }, async function (jwt_payload, done) {
-    console.log("jwt: ",jwt_payload.email);
+    logger.infromation("jwt: ",jwt_payload.email);
         done(null,jwt_payload);
 }));
 

@@ -1,5 +1,6 @@
 import CustomError from "../errors/error.generator.js";
 import { ErrorMessages } from "../errors/errors.enum.js";
+import { logger } from "../logger.js";
 
 //Session
 export const createCookie = async (req, res) => {
@@ -13,7 +14,7 @@ export const createCookie = async (req, res) => {
         req.session.email = email;
         res.send("Session created successfully");
     } catch (error) {
-        console.error("Error creating session:", error);
+        logger.error("Error creating session:", error);
         //res.status(500).send("Internal Server Error");
         CustomError.generateError(
             ErrorMessages.INERNAL_ERROR,
@@ -24,6 +25,6 @@ export const createCookie = async (req, res) => {
 };
 
 export const viewCookie = async (req, res) => {
-    console.log("Cookies:", req.cookies);
+    logger.information("Cookies:", req.cookies);
     res.send("View cookies");
 };

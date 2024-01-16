@@ -6,6 +6,7 @@ import {
 import CustomError from "../errors/error.generator.js";
 import { ErrorMessages } from "../errors/errors.enum.js";
 import { authMiddleware } from '../middlewares/auth.middleware.js';
+import { logger } from '../logger.js';
 
 export const findMessages = async (req, res) => {
     try {
@@ -25,7 +26,7 @@ export const createMessage = async (req, res) => {
     passport.authenticate('jwt', { session: false })(req, res, async () =>{
         authMiddleware(['user'])(req, res, async () => {
             const { username, message} = req.body;
-            console.log("/////////\n",username,message);
+            logger.information("/////////\n",username,message);
             if (!message) {
                 //res.status(400).json({ message: "Required data is missing" });
                 CustomError.generateError(

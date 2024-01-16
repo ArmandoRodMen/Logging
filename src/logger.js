@@ -11,12 +11,12 @@ const customLevels = {
         fatal: 5,
     },
     colors: {
-        fatal: "red",
-        warning: "yellow",
-        information: "green",
-        error: "orange",
-        http: "blue",
         debug: "purple",
+        http: "blue",
+        information: "green",
+        warning: "yellow",
+        error: "orange",
+        fatal: "red",
     },
 };
 
@@ -27,7 +27,7 @@ if (config.ENVIRONMENT === "production") {
         levels: customLevels.levels,
         transports: [
             new winston.transports.File({
-                level: "info",
+                level: "information", // Se mostrarán mensajes de nivel "infromation" y superiores
                 filename: "logs-prod-file.log",
                 format: winston.format.combine(
                     winston.format.timestamp(),
@@ -35,7 +35,7 @@ if (config.ENVIRONMENT === "production") {
                 ),
             }),
             new winston.transports.File({
-                level: "error",
+                level: "error", // Se mostrarán mensajes de nivel "error" y superiores
                 filename: "errors.log", 
                 format: winston.format.combine(
                     winston.format.timestamp(),
@@ -49,10 +49,10 @@ if (config.ENVIRONMENT === "production") {
         levels: customLevels.levels,
         transports: [
             new winston.transports.Console({
-                level: "debug",
+                level: "debug", // Se mostrarán mensajes de nivel "debug" y superiores
                 format: winston.format.combine(
-                    winston.format.colorize({ colors: customLevels.colors }),
-                    winston.format.simple()
+                    winston.format.colorize({ colors: customLevels.colors }), // Aplicar colores a la consola
+                    winston.format.simple() // Formato simple para los mensajes
                 ),
             }),
         ],

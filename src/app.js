@@ -71,7 +71,11 @@ app.get("/mockingproducts",(req, res) =>{
 });
 
 app.get("/loggerTest", (req, res) => {
+    logger.debug("Prueba debug");
+    logger.http("Prueba http");
     logger.information("Escuchando puerto 8080 con logger"); 
+    logger.warning("Prueba warning");
+    logger.error("Prueba error");
     logger.fatal("Prueba de Error");
     res.send("Logger test completed");
 });
